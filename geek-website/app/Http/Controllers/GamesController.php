@@ -16,19 +16,8 @@ class GamesController extends Controller
     {
 
         $games = Game::query()->orderBy('name')->get();
-        // execução de query para ordenação alfabética
-
-        // $games = DB::select('SELECT name FROM games;');
-        // a query de cima retorna um array, o all é uma collection e consegue funcionar com uma Model
-        // $games = Game::all();
-        
-        // dd($games);
-        // return view('game-list', [
-        //     'games'=>$games
-        // ]);
-        // compact cria uma variavel 'games' e envia o conteudo $games para a view game-list
-        // return view('game-list', compact('games')); with funciona da mesma forma
-        return view('games.index')->with('games', $games);
+        $successMessage = $request->session()->get('mensagem.sucesso');
+        return view('games.index')->with('games', $games)->with('successMessage', $successMessage);
     }
 
     /**
@@ -39,58 +28,12 @@ class GamesController extends Controller
         return view('games.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-        
-    //     // dd($request->all());
-    //     // request->all retorna os parametros da requisição, como por exemplo o name
-    //     Game::create($request->all);
-    // atribuição em massa exige um fillable para atribuição de dados em massa
-
-
-    //     // $gameName = $request->input('name'); abaixo funciona do mesmo jeito com o parametro name do input
-    //     // $gameName = $request->name;
-    //     // $game = new Game();
-    //     // $game->name = $gameName;
-    //     // $game->save();
-    //     // o save com a model configurada previne o sql injection
-    //     // DB::insert('INSERT INTO games (name) VALUES (?)', [$gameName]);
-    //     return redirect('/games');
-    // }
-
     public function store(Request $request)
     {
-        Game::create($request->all());
+        $game = Game::create($request->all());
 
-        // return redirect('/games');
+        $request->session()->flash('mensagem.sucesso', "Jogo {$game->name} adicionado com sucesso");
         return to_route('games.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
     }
 
     /**
@@ -98,6 +41,8 @@ class GamesController extends Controller
      */
     public function destroy(Request $request)
     {
-        dd($request->game);
+        Game::destroy($request->id);
+        $request->session()->flash('mensagem.sucesso', 'Jogo removido com sucesso');
+        return to_route('games.index');
     }
 }

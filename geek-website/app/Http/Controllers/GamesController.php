@@ -4,45 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GamesFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class GamesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-
         $games = Game::query()->orderBy('name')->get();
         $successMessage = $request->session()->get('mensagem.sucesso');
-        return view('games.index')->with('games', $games)->with('successMessage', $successMessage);
+        return view('screens.games.index')->with('games', $games)->with('successMessage', $successMessage);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('games.create');
+        return view('screens.games.create');
     }
-
-    public function store(Request $request)
+    public function store(GamesFormRequest $request)
     {
+        $request->validate([
+            'name'=>['required', 'min:3']
+        ]);
         $game = Game::create($request->all());
-
-        $request->session()->flash('mensagem.sucesso', "Jogo {$game->name} adicionado com sucesso");
-        return to_route('games.index');
+        return to_route('screens.games.index')->with('mensagem.sucesso', "Jogo {$game->name} adicionado com sucesso");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request)
+    public function destroy(Game $games)
     {
-        Game::destroy($request->id);
-        $request->session()->flash('mensagem.sucesso', 'Jogo removido com sucesso');
-        return to_route('games.index');
+        $games->delete();
+        return to_route('screens.games.index')->with('mensagem.sucesso', "Jogo {$games->name} removido com sucesso");
+    }
+
+    public function edit(Game $game)
+    {
+        return view('screens.games.edit')->with('game', $game);
+    }
+
+    public function update(Game $game, GamesFormRequest $request)
+    {
+        $game->update($request->all());
+        return to_route('screens.games.index')->with('mensagem.sucesso', "Jogo {$game->name} atualizado com sucesso");
     }
 }

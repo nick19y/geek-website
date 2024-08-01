@@ -26,13 +26,13 @@ class GamesController extends Controller
             'name'=>['required', 'min:3']
         ]);
         $game = Game::create($request->all());
-        return to_route('screens.games.index')->with('mensagem.sucesso', "Jogo {$game->name} adicionado com sucesso");
+        return to_route('games.index')->with('mensagem.sucesso', "Jogo {$game->name} adicionado com sucesso");
     }
 
     public function destroy(Game $games)
     {
         $games->delete();
-        return to_route('screens.games.index')->with('mensagem.sucesso', "Jogo {$games->name} removido com sucesso");
+        return to_route('games.index')->with('mensagem.sucesso', "Jogo {$games->name} removido com sucesso");
     }
 
     public function edit(Game $game)
@@ -43,6 +43,6 @@ class GamesController extends Controller
     public function update(Game $game, GamesFormRequest $request)
     {
         $game->update($request->all());
-        return to_route('screens.games.index')->with('mensagem.sucesso', "Jogo {$game->name} atualizado com sucesso");
+        return to_route('games.index')->with('mensagem.sucesso', "Jogo {$game->name} atualizado com sucesso");
     }
 }

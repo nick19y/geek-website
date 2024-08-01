@@ -14,6 +14,13 @@
     <main>
         <div class="container">
             <div class="container-item">
+                <img src="img/television.png" alt="">
+                <div class="container-title">Séries</div>
+                <a href="{{route('series.index')}}">
+                    <button class="list-button">Ver lista</button>
+                </a>
+            </div>
+            <div class="container-item">
                 <img src="img/books.png" alt="">
                 <div class="container-title">Livros</div>
                 <a href="{{route('books.index')}}">

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GamesController;
 use App\Http\Controllers\BooksController;
+use App\Http\Controllers\SeriesController;
 
 Route::get('/', function () {
     return view('index');
@@ -26,3 +27,12 @@ Route::controller(BooksController::class)->group(function(){
     Route::put('/books/update/{book}', 'update')->name('books.update');
 });
 
+
+Route::controller(SeriesController::class)->group(function(){
+    Route::get('/series', 'index')->name('series.index');
+    Route::get('/series/create','create')->name('series.create');
+    Route::post('/series/save','store')->name('series.store');
+    Route::delete('/series/destroy/{series}', 'destroy')->name('series.destroy');
+    Route::get('/series/edit/{serie}', 'edit')->name('series.edit');
+    Route::put('/series/update/{serie}', 'update')->name('series.update');
+});

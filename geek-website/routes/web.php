@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GamesController;
+use App\Http\Controllers\SeasonsController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\SeriesController;
 
@@ -27,7 +28,6 @@ Route::controller(BooksController::class)->group(function(){
     Route::put('/books/update/{book}', 'update')->name('books.update');
 });
 
-
 Route::controller(SeriesController::class)->group(function(){
     Route::get('/series', 'index')->name('series.index');
     Route::get('/series/create','create')->name('series.create');
@@ -36,3 +36,5 @@ Route::controller(SeriesController::class)->group(function(){
     Route::get('/series/edit/{serie}', 'edit')->name('series.edit');
     Route::put('/series/update/{serie}', 'update')->name('series.update');
 });
+
+Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])->name('seasons.index');

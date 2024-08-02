@@ -6,11 +6,15 @@ use App\Models\Serie;
 use App\Models\Season;
 use App\Models\Episode;
 use App\Http\Controllers\Controller;
+use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
+    public function __construct(private SeriesRepository $repository)
+    {
+    }
     public function index(Request $request)
     {
         // $series = Serie::query()->orderBy('name')->get(); a ordenação foi feita na classe de Serie
@@ -23,30 +27,11 @@ class SeriesController extends Controller
     {
         return view('screens.series.create');
     }
-    public function store(Request $request)
+    public function store(Request $request, SeriesRepository $repository)
     {
-        $request->validate([
-            'name'=>['required', 'min:3']
-        ]);
-        $serie = Serie::create($request->all());
-        $seasons=[];
-        for($i=1;$i<=$request->amount_seasons;$i++){
-            $seasons[]=[
-                'series_id'=>$serie->id,
-                'number'=>$i,
-            ];
-        }
-        Season::insert($seasons);
-        $episodes=[];
-        foreach($serie->seasons as $season){
-            for($j=1;$j<=$request->episodesPerSeason;$j++){
-                $episodes[]=[
-                    'season_id'=>$season->id,
-                    'number'=>$j,
-                ];
-            }
-        }
-        Episode::insert($episodes);
+        $serie = $repository->add($request);
+
+        // $serie = $this->repository->add($request); sintaxe do php, se for usar em vários lugares, compensa usar essa e nãoi passar o repostório como parametro
 
         return to_route('series.index')->with('mensagem.sucesso', "Série {$serie->name} adicionada com sucesso");
     }

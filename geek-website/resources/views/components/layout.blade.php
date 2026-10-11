@@ -8,15 +8,13 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{route('series.index')}}">Home</a>
+        <div class="container-fluid d-flex justify-content-around px-5">
+            <a class="navbar-brand" href="{{route('home.index')}}">Home</a>
             @auth
             <a href="{{route('logout')}}">Sair</a>
-            <!-- se envolver o item com essa diretiva do blade, o componente só é mostrado se o usuário estiver logado -->
             @endauth
             @guest
-            <a class="navbar-brand" href="{{route('login')}}">Entrar</a>
-            <!-- se envolver o item com essa diretiva do blade, o componente só é mostrado se o usuário não estiver logado -->
+                <a class="navbar-brand" href="{{route('login')}}">Entrar</a>
             @endguest
         </div>
     </nav>

@@ -20,7 +20,7 @@ Route::middleware(Authenticator::class)->group(function(){
 
     Route::get('/', function () {
         return view('index');
-    })->middleware(Authenticator::class);
+    })->middleware(Authenticator::class)->name('home.index');
     
     Route::controller(GamesController::class)->group(function(){
         Route::get('/games','index')->name('games.index');
@@ -48,6 +48,16 @@ Route::middleware(Authenticator::class)->group(function(){
         Route::get('/series/edit/{serie}', 'edit')->name('series.edit');
         Route::put('/series/update/{serie}', 'update')->name('series.update');
     });
+
+    Route::controller(UsersController::class)->group(function(){
+        Route::get('/users', 'index')->name('users.index');
+        Route::get('/users/create','create')->name('users.create');
+        Route::post('/users/save','store')->name('users.store');
+        Route::delete('/users/destroy/{users}', 'destroy')->name('users.destroy');
+        Route::get('/users/edit/{serie}', 'edit')->name('users.edit');
+        Route::put('/users/update/{serie}', 'update')->name('users.update');
+    });
+
 });
 
 

@@ -29,10 +29,10 @@ class GamesController extends Controller
         return to_route('games.index')->with('mensagem.sucesso', "Jogo {$game->name} adicionado com sucesso");
     }
 
-    public function destroy(Game $games)
+    public function destroy(Game $game)
     {
-        $games->delete();
-        return to_route('games.index')->with('mensagem.sucesso', "Jogo {$games->name} removido com sucesso");
+        $game->delete();
+        return to_route('games.index')->with('mensagem.sucesso', "Jogo {$game->name} removido com sucesso");
     }
 
     public function edit(Game $game)

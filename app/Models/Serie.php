@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Season;
 
 class Serie extends Model
@@ -22,6 +23,11 @@ class Serie extends Model
         self::addGlobalScope('ordered', function(Builder $queryBuilder){
             $queryBuilder->orderBy('name', 'desc');
         });
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->BelongsToMany(User::class);
     }
     // public function scopeActive(Builder $query)
     // {

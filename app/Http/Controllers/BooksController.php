@@ -27,10 +27,10 @@ class BooksController extends Controller
         $book = Book::create($request->all());
         return to_route('books.index')->with('mensagem.sucesso', "Livro {$book->name} adicionado com sucesso");
     }
-    public function destroy(Book $books)
+    public function destroy(Book $book)
     {
-        $books->delete();
-        return to_route('books.index')->with('mensagem.sucesso', "Livro {$books->name} removido com sucesso");
+        $book->delete();
+        return to_route('books.index')->with('mensagem.sucesso', "Livro {$book->name} removido com sucesso");
     }
 
     public function edit(Book $book)

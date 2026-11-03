@@ -22,7 +22,7 @@
         </div>
     </header>
     @endauth
-    <div class="container">
+    <div class="">
         @isset($title)
         <h1 class="mt-4">{{$title}}</h1>
         @endisset

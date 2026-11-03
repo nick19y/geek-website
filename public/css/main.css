@@ -13,25 +13,8 @@ body{
     font-size: xx-large;
     align-self: center;
 }
-
 .text-purple-custom{
     color: #6d5efc;
-}
-
-.container{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 25em;
-}
-.container-item{
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid black;
-    border-radius: 10%;
-    padding: 2em 4em;
 }
 .list-button{
     padding: 1em 2em;

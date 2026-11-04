@@ -24,7 +24,12 @@ Route::middleware(Authenticator::class)->group(function(){
     Route::resource('games', GamesController::class);
     Route::resource('books', BooksController::class);
     Route::resource('series', SeriesController::class);
-    Route::resource('users', UsersController::class);
+    Route::resource('users', UsersController::class)->except(['create', 'store', 'show', 'destroy']);
+
+    Route::middleware('can:admin')->group(function () {
+        Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
+        Route::patch('/users/{user}/admin', [UsersController::class, 'toggleAdmin'])->name('users.admin');
+    });
 
 });
 

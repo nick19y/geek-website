@@ -22,28 +22,42 @@ class UsersController extends Controller
     }
     public function store(Request $request)
     {
-        // criar um formRequest para validação depois
-        $data = $request->except(['token']);
-        // o hash::make e uma facade do php q traz o algoritmo de hash mais atualizado por padrão
+        $data = $request->only(['name', 'email', 'password']);
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
         Auth::login($user);
         return to_route('home.index');
     }
-        public function destroy(User $users)
+    public function destroy(User $user)
     {
-        $users->delete();
-        return to_route('users.index')->with('mensagem.sucesso', "Usuário {$users->name} removido com sucesso");
-    }
+        if ($user->is(Auth::user())) {
+            return to_route('users.index')->withErrors(['users' => 'Você não pode excluir a si mesmo.']);
+        }
 
+        $user->delete();
+        return to_route('users.index')->with('mensagem.sucesso', "Usuário {$user->name} removido com sucesso");
+    }
+    public function toggleAdmin(User $user)
+    {
+        if ($user->is(Auth::user())) {
+            return to_route('users.index')->withErrors(['users' => 'Você não pode alterar o seu próprio perfil.']);
+        }
+
+        $user->is_admin = ! $user->is_admin;
+        $user->save();
+
+        return to_route('users.index')->with('mensagem.sucesso', "Perfil de {$user->name} atualizado");
+    }
     public function edit(User $book)
     {
         return view('screens.users.edit')->with('book', $book);
     }
 
-    public function update(User $book, Request $request)
+    public function update(User $user, Request $request)
     {
-        $book->update($request->all());
-        return to_route('users.index')->with('mensagem.sucesso', "Usuário {$book->name} atualizado com sucesso");
+        abort_unless($request->user()->is_admin || $user->is($request->user()), 403);
+
+        $user->update($request->only(['name', 'email']));
+        return to_route('users.index')->with('mensagem.sucesso', "Usuário {$user->name} atualizado com sucesso");
     }
 }

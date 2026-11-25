@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UsersFormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -48,16 +49,33 @@ class UsersController extends Controller
 
         return to_route('users.index')->with('mensagem.sucesso', "Perfil de {$user->name} atualizado");
     }
-    public function edit(User $book)
+    public function edit(User $user)
     {
-        return view('screens.users.edit')->with('book', $book);
+        return view('screens.users.edit')->with('user', $user);
     }
 
-    public function update(User $user, Request $request)
+    public function update(User $user, UsersFormRequest $request)
     {
         abort_unless($request->user()->is_admin || $user->is($request->user()), 403);
 
-        $user->update($request->only(['name', 'email']));
-        return to_route('users.index')->with('mensagem.sucesso', "Usuário {$user->name} atualizado com sucesso");
+        $data = $request->validated();
+
+        if (filled($data['password'] ?? null)) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        if ($request->user()->is_admin) {
+            $data['is_admin'] = $request->boolean('is_admin');
+        } else {
+            unset($data['is_admin']);
+        }
+
+        $user->update($data);
+
+        return to_route('users.index')
+            ->with('mensagem.sucesso', "Usuário {$user->name} atualizado com sucesso");
     }
+    
 }

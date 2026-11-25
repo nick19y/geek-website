@@ -28,6 +28,8 @@ Route::middleware(Authenticator::class)->group(function(){
     Route::resource('movies', MoviesController::class);
     Route::resource('users', UsersController::class)->except(['create', 'store', 'show', 'destroy']);
 
+    Route::resource('users', UsersController::class)->only(['index', 'edit', 'update']);
+
     Route::middleware('can:admin')->group(function () {
         Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
         Route::patch('/users/{user}/admin', [UsersController::class, 'toggleAdmin'])->name('users.admin');

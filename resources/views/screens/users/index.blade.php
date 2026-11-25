@@ -35,4 +35,5 @@
         </li>
         @endforeach
     </ul>
+    <a href="{{route('users.create')}}" class="btn btn-dark my-4">Adicionar um novo usuário</a>
 </x-layout>

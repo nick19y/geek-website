@@ -6,7 +6,7 @@
             <input class="w-25 px-4 py-2 rounded-pill border border-secondary text-white shadow-none" type="search" placeholder="Buscar filmes, séries, jogos ou livros…">
         </section>
         <div class="d-flex justify-content-center mt-5 gap-4">
-            <a href="" class="text-decoration-none text-black">
+            <a href="{{route('movies.index')}}" class="text-decoration-none text-black">
                 <div class="border rounded-4 p-4 text-center fs-5 shadow-lg border-top m-1 d-flex flex-column gap-2">
                     <div class="fs-1">🎬</div>
                     <div>Filmes</div>

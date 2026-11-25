@@ -12,28 +12,36 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('book_user', function (Blueprint $table) {
-        $table->engine = 'InnoDB';
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('book_id')->constrained()->onDelete('cascade');
-        $table->timestamps();
-    });
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
 
-    Schema::create('game_user', function (Blueprint $table) {
-        $table->engine = 'InnoDB';
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('game_id')->constrained()->onDelete('cascade');
-        $table->timestamps();
-    });
+        Schema::create('game_user', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
 
-    Schema::create('serie_user', function (Blueprint $table) {
-        $table->engine = 'InnoDB';
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('serie_id')->constrained()->onDelete('cascade');
-        $table->timestamps();
-    });
+        Schema::create('serie_user', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('serie_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        Schema::create('movie_user', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('movie_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -44,5 +52,6 @@ return new class extends Migration
         Schema::dropIfExists('book_user');
         Schema::dropIfExists('game_user');
         Schema::dropIfExists('serie_user');
+        Schema::dropIfExists('movie_user');
     }
 };

@@ -7,6 +7,7 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\EpisodesController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MoviesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Middleware\Authenticator;
 
@@ -24,6 +25,7 @@ Route::middleware(Authenticator::class)->group(function(){
     Route::resource('games', GamesController::class);
     Route::resource('books', BooksController::class);
     Route::resource('series', SeriesController::class);
+    Route::resource('movies', MoviesController::class);
     Route::resource('users', UsersController::class)->except(['create', 'store', 'show', 'destroy']);
 
     Route::middleware('can:admin')->group(function () {
